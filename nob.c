@@ -32,7 +32,7 @@ int main(int argc, char **argv) {
     cmd_append(&cmd, "cc", 
                "-lraylib", "-lm",
                "-o", DIR"groomer",
-               SOURCE_DIR"main.c", SOURCE_DIR"shader_man.c");
+               SOURCE_DIR"main.c");
     if(!cmd_run(&cmd)) return 1;
 
     cmd_append(&cmd, "sudo", "mv", "--update", DIR"groomer", "/bin/");
