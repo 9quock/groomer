@@ -1,6 +1,10 @@
 # Groomer
 Q: What is this?
-A: Look at github.com/tsoding/boomer
+A: Look at https://github.com/tsoding/boomer
+
+# Requirements
+   - Raylib: https://github.com/raysan5/raylib
+   - Grim: https://sr.ht/~emersion/grim/
 
 # Installing
 
