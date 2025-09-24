@@ -35,7 +35,7 @@ int main(int argc, char **argv) {
                SOURCE_DIR"main.c");
     if(!cmd_run(&cmd)) return 1;
 
-    cmd_append(&cmd, "sudo", "mv", "--update", DIR"groomer", "/bin/");
+    cmd_append(&cmd, "sudo", "cp", "--update", DIR"groomer", "/bin/");
     if(!cmd_run(&cmd)) return 1;
 
     nob_log(NOB_INFO, "Try running \"groomer\"");
