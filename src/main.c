@@ -5,12 +5,24 @@
 
 #include "../build/shader.h"
 
-#define SCREENSHOT_FILENAME "temp_screenshot.png"
-
 int main(void) {
-    const char *screenshot_file = nob_temp_sprintf("%s/"SCREENSHOT_FILENAME, nob_get_current_dir_temp());
+    FILE *screenshotFile = popen("grim -t png -", "r");
+    if(!screenshotFile) return 1;
 
-    system(TextFormat("grim -t png \"%s\"", screenshot_file));
+    Nob_String_Builder screenshotFileData = {0};
+    while(1) {
+        nob_da_reserve(&screenshotFileData, screenshotFileData.count + 1024);
+        int m = fread(screenshotFileData.items + screenshotFileData.count, 1024, 1, screenshotFile);
+        screenshotFileData.count += 1024;
+
+        if(m == 0) break;
+        if(m < 0) return 1;
+    }
+    if(screenshotFile) pclose(screenshotFile);
+
+    Image screenshotImage = LoadImageFromMemory(".png", screenshotFileData.items, screenshotFileData.count);
+    nob_sb_free(screenshotFileData);
+
 
     InitWindow(0, 0, "Groomer");
 
@@ -30,7 +42,8 @@ int main(void) {
     int mousePosLoc = GetShaderLocation(flashlightShader, "mousePos"); 
     int flashSizeLoc = GetShaderLocation(flashlightShader, "flashSize"); 
 
-    Texture screenshot = LoadTexture(screenshot_file);
+    Texture screenshot = LoadTextureFromImage(screenshotImage);
+    UnloadImage(screenshotImage);
 
     float flashSize = 512;
   
@@ -85,7 +98,6 @@ int main(void) {
 
     UnloadTexture(screenshot);
     UnloadShader(flashlightShader);
-    nob_delete_file(screenshot_file);
 
     CloseWindow();
     return 0;
