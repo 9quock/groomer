@@ -85,7 +85,7 @@ int main(void) {
         }
 
         BeginDrawing();
-        ClearBackground(BLACK);
+        ClearBackground((Color){0x0d, 0x0d, 0x0d});
 
         BeginShaderMode(flashlightShader);
         BeginMode2D(lerpCamera);
